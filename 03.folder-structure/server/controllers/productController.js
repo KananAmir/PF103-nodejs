@@ -2,8 +2,26 @@ const Product = require("../models/productModel")
 
 //get all products
 const getAllProducts = async (req, res) => {
+    const { search, sortBy, order } = req.query;
+    console.log("search", search);
+    const filter = {};
+
+
+    if (search) {
+        filter.title = {
+            $regex: search,
+            $options: 'i' // case insensitive
+        }
+    }
+
     try {
-        const products = await Product.find({})
+        const products = await Product.find(filter)
+            .collation({ locale: 'en', strength: 2 })
+            .sort({
+                [sortBy]: order === "asc" ? 1 : -1,
+                // createdAt: -1
+            })
+
         res.status(200).json({
             message: 'Products fetched successfully',
             status: 'success',
@@ -75,9 +93,9 @@ const deleteProductById = async (req, res) => {
 // create a product
 
 const createProduct = async (req, res) => {
-    
+
     try {
-       
+
         const newProduct = new Product({ ...req.body });
         // console.log("newProduct", newProduct);
 
