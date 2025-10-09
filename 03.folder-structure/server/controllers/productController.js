@@ -8,10 +8,20 @@ const getAllProducts = async (req, res) => {
 
 
     if (search) {
-        filter.title = {
-            $regex: search,
-            $options: 'i' // case insensitive
-        }
+        filter.$or = [
+            {
+                title: {
+                    $regex: search,
+                    $options: 'i' // case insensitive
+                }
+            },
+            {
+                description: {
+                    $regex: search,
+                    $options: 'i' // case insensitive
+                }
+            }
+        ]
     }
 
     try {
@@ -30,7 +40,7 @@ const getAllProducts = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: 'Server Error',
+            message: error.message,
             status: 'error'
         })
     }
