@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { Schema } = mongoose;
 const app = express()
-const port = 8000
 
 require('dotenv').config()
 
@@ -189,8 +188,8 @@ const DB_CONNECT_URL = process.env.DB_CONNECT_URL.replace('<password>', DB_PASSW
 
 mongoose.connect(DB_CONNECT_URL).then(() => {
     console.log("DB connection successful")
-    app.listen(port, () => {
-        console.log(`Example app listening on port ${port}, http://localhost:${port}`)
+    app.listen(PORT, () => {
+        console.log(`Example app listening on port ${PORT}, http://localhost:${PORT}`)
     })
 
 }).catch((err) => {
