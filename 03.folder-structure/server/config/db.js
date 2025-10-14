@@ -7,6 +7,7 @@ const DB_CONNECT_URL = process.env.DB_CONNECT_URL.replace('<password>', DB_PASSW
 
 const connectDB = () => {
     mongoose.connect(DB_CONNECT_URL).then(() => {
+        console.log('DB connected successfully')
     }).catch((err) => {
         console.log(err)
     })
